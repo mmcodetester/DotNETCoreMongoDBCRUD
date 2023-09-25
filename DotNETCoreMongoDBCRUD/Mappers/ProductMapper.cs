@@ -5,6 +5,11 @@ namespace DotNETCoreMongoDBCRUD.Mappers
 {
     public class ProductMapper
     {
+        public  Dictionary<string, string> GetFilters()
+        { 
+            Dictionary<string,string> filters = new Dictionary<string,string>();
+            return filters;
+        }
         public Product MapViewModelToModel(ProductViewModel vm)
         {
             Product model= new Product();
