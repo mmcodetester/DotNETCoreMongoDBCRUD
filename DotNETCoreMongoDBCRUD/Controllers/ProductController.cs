@@ -12,6 +12,8 @@ using DotNETCoreMongoDBCRUD.Controllers.Common;
 using DotNETCoreMongoDBCRUD.Utli;
 using DotNETCoreMongoDBCRUD.Mappers;
 using DotNETCoreMongoDBCRUD.ViewModel;
+using DotNETCoreMongoDBCRUD.Service;
+using DotNETCoreMongoDBCRUD.Entity.common;
 
 namespace DotNETCoreMongoDBCRUD.Controllers
 {
@@ -21,9 +23,13 @@ namespace DotNETCoreMongoDBCRUD.Controllers
     {        
           IRepository<Product> _productRepository;
         ProductMapper mapper;
+        ProductService service;
+        Product productModel;
         public ProductController(IRepository<Product> productRepository)
         {
             _productRepository = productRepository;
+            productModel = new Product();
+            service = new ProductService(_productRepository, productModel);
             mapper = new ProductMapper();
         }
         [HttpGet]
@@ -38,9 +44,10 @@ namespace DotNETCoreMongoDBCRUD.Controllers
         [HttpPost]
         public JsonResult Save(ProductViewModel vm)
         {
+            CommandResultModel result = new CommandResultModel();
             Product product = mapper.MapViewModelToModel(vm);
-            _productRepository.Add(product);
-            return Json(new { success=true });
+            result = service.SaveOrUpdate(product);
+            return Json(result);
         }
         [HttpGet]
         [Route("GetById")]
@@ -53,8 +60,10 @@ namespace DotNETCoreMongoDBCRUD.Controllers
         [HttpDelete]
         public JsonResult Delete(string id)
         {
-            _productRepository.Delete(id); 
-            return Json(new { success=true });
+            CommandResultModel result = new CommandResultModel();
+            Product product = _productRepository.GetById(id);
+            result = service.Delete(product);
+            return Json(result);
         }
     }
 }
