@@ -31,7 +31,7 @@ namespace DotNETCoreMongoDBCRUD.Controllers
         {
           QueryOption<Product> queryOption = new QueryOption<Product>();
           queryOption = GetQueryOptions<Product>();
-          List<Product> products =await _productRepository.GetAllAsync(queryOption);
+            List<Product> products =await _productRepository.GetAllAsync(queryOption);
             //return _productRepository.GetAll();
             return Json(products);
         }

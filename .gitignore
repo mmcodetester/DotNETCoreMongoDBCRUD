@@ -1,5 +1,6 @@
-DotNETCoreMongoDBCRUD/bin/
-DotNETCoreMongoDBCRUD/obj/
+bin
+obj
+packages
 *.user
 *.suo
 *.vs
