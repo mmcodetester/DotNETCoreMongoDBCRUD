@@ -26,9 +26,10 @@ namespace DotNETCoreMongoDBCRUD.Controllers.Common
         protected QueryOption<TViewModel> GetQueryOptions<TViewModel>() where TViewModel : class
         {
             QueryOption<TViewModel> op = new QueryOption<TViewModel>();
-            string? sortOrder = GetRequestParameters<string>("so");
-            int pageSize = GetRequestParameters<int>("ps");
-            int pageNumber = GetRequestParameters<int>("pn");
+            op.filterJson = GetRequestParameters<string>("filter");
+            string? sortOrder = GetRequestParameters<string>("sort");
+            int pageSize = GetRequestParameters<int>("pageSize");
+            int pageNumber = GetRequestParameters<int>("page");
             if (pageSize == 0)
             {
                 pageSize = 10;
@@ -53,8 +54,7 @@ namespace DotNETCoreMongoDBCRUD.Controllers.Common
             {
 
             }
-            op.fromPage = pageNumber;
-            op.fromRecord = skip;
+            op.page = pageNumber;
             op.recordPerPage = pageSize;
             return op;
         }

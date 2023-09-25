@@ -35,6 +35,7 @@ namespace DotNETCoreMongoDBCRUD.Controllers
             //return _productRepository.GetAll();
             return Json(products);
         }
+        [HttpPost]
         public JsonResult Save(ProductViewModel vm)
         {
             Product product = mapper.MapViewModelToModel(vm);

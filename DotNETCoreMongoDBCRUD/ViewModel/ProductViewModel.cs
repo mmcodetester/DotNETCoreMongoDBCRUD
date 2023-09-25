@@ -9,7 +9,7 @@
         public string? series { get; set; }
         public string? graphic { get; set; }
         public string? ram { get; set; }
-        public bool? hdwebcam { get; set; }
+        public bool hdwebcam { get; set; }
         public string? display { get; set; }
     }
 }

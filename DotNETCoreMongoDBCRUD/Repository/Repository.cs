@@ -27,7 +27,7 @@ namespace DotNETCoreMongoDBCRUD.Repository
 
         public void Delete(string id)
         {
-            var filter = Builders<T>.Filter.Eq("_id", id);
+            var filter = Builders<T>.Filter.Eq("_id", MongoDB.Bson.ObjectId.Parse(id));
             _collection.DeleteOne(filter);
         }
 
@@ -38,7 +38,7 @@ namespace DotNETCoreMongoDBCRUD.Repository
 
         public T GetById(string id)
         {
-            var filter = Builders<T>.Filter.Eq("_id", id);
+            var filter = Builders<T>.Filter.Eq("_id",MongoDB.Bson.ObjectId.Parse(id));
             return _collection.Find(filter).FirstOrDefault();
         }
 

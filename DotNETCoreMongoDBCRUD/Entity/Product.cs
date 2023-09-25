@@ -31,7 +31,7 @@ namespace DotNETCoreMongoDBCRUD.Entity
         public string? ram { get; set; }
         [DataMember]
         [BsonElement("webcam")]
-        public bool? hdwebcam { get; set; }
+        public bool hdwebcam { get; set; }
         [DataMember]
         [BsonElement("display")]
         public string? display { get; set; }

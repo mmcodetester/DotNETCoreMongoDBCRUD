@@ -1,0 +1,5 @@
+DotNETCoreMongoDBCRUD/bin/
+DotNETCoreMongoDBCRUD/obj/
+*.user
+*.suo
+*.vs
