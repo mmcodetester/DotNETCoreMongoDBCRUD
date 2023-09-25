@@ -1,5 +1,6 @@
 ﻿using DotNETCoreMongoDBCRUD.Entity;
 using DotNETCoreMongoDBCRUD.ViewModel;
+using DotNETCoreMongoDBCRUD.ViewModel.common;
 
 namespace DotNETCoreMongoDBCRUD.Mappers
 {
@@ -9,6 +10,26 @@ namespace DotNETCoreMongoDBCRUD.Mappers
         { 
             Dictionary<string,string> filters = new Dictionary<string,string>();
             return filters;
+        }
+        public CommandResultViewModel<ProductViewModel> MapListToViewModel(List<Product> products)
+        {
+            CommandResultViewModel<ProductViewModel> result = new CommandResultViewModel<ProductViewModel>();
+            foreach (Product product in products)
+            {
+                ProductViewModel vm = new   ProductViewModel();
+                vm.id= product._id.ToString();
+                vm.name = product.name;
+                vm.generation = product.generation;
+                vm.made= product.made;
+                vm.series= product.series;
+                vm.graphic=product.graphic;
+                vm.ram = product.ram;
+                vm.hdwebcam = product.hdwebcam;
+                vm.display=product.display;
+                result.data.Add(vm);
+            }
+            result.recordsTotal= products.Count;
+            return result;
         }
         public Product MapViewModelToModel(ProductViewModel vm)
         {

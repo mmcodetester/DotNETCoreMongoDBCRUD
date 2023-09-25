@@ -14,6 +14,7 @@ using DotNETCoreMongoDBCRUD.Mappers;
 using DotNETCoreMongoDBCRUD.ViewModel;
 using DotNETCoreMongoDBCRUD.Service;
 using DotNETCoreMongoDBCRUD.Entity.common;
+using DotNETCoreMongoDBCRUD.ViewModel.common;
 
 namespace DotNETCoreMongoDBCRUD.Controllers
 {
@@ -33,13 +34,22 @@ namespace DotNETCoreMongoDBCRUD.Controllers
             mapper = new ProductMapper();
         }
         [HttpGet]
-        public async Task<JsonResult> GetAll()
+        public JsonResult GetAll()
         {
-          QueryOption<Product> queryOption = new QueryOption<Product>();
-          queryOption = GetQueryOptions<Product>();
-            List<Product> products =await _productRepository.GetAllAsync(queryOption);
-            //return _productRepository.GetAll();
-            return Json(products);
+            CommandResultViewModel<ProductViewModel> results = new CommandResultViewModel<ProductViewModel>();
+            try
+            {
+                QueryOption<Product> queryOption = new QueryOption<Product>();
+                queryOption = GetQueryOptions<Product>();
+                List<Product> products = _productRepository.GetPageResult(queryOption);
+                results = mapper.MapListToViewModel(products);
+            }
+            catch(Exception ex)
+            {
+
+            }
+            
+            return Json(results);
         }
         [HttpPost]
         public JsonResult Save(ProductViewModel vm)

@@ -64,7 +64,7 @@ namespace DotNETCoreMongoDBCRUD.Repository
             return await query.ToListAsync();
         }
 
-        public async Task<List<T>> GetAllAsync(QueryOption<T> options)
+        public List<T> GetPageResult(QueryOption<T> options)
         {
             var filter = !string.IsNullOrWhiteSpace(options.filterJson) ? MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(options.filterJson) : new BsonDocument();
             var sort = !string.IsNullOrWhiteSpace(options.sortJson) ? MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(options.sortJson) : new BsonDocument();
@@ -73,7 +73,7 @@ namespace DotNETCoreMongoDBCRUD.Repository
                 query = query.Sort(sort);
             if (options.page != null && options.pageSize != null)
                 query = query.Skip((options.page.Value - 1) * options.pageSize.Value).Limit(options.pageSize.Value);
-            return await query.ToListAsync();
+            return  query.ToList();
         }
     }
 }

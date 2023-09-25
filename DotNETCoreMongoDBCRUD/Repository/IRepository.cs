@@ -6,7 +6,7 @@ namespace DotNETCoreMongoDBCRUD.Repository
     {
         IEnumerable<T> GetAll();
         Task<IEnumerable<T>> GetFilteredSortedPaginatedAsync(QueryOption<T> options);
-        Task<List<T>> GetAllAsync(QueryOption<T> options);
+        List<T> GetPageResult(QueryOption<T> options);
 
         List<T> Get();
         T GetById(string id);

@@ -39,14 +39,33 @@ namespace DotNETCoreMongoDBCRUD.Controllers.Common
             {
                 if (key.Key == "sort")
                 {
+                    string sortBy = Request.Query["sortBy"].ToString();
                     if (key.Value == "ASC")
                     {
-                        sorts.Add("_id",1);
+                        if(!string.IsNullOrEmpty(sortBy))
+                        {
+                            sorts.Add(sortBy, 1);
+                        }
+                        else
+                        {
+                            sorts.Add("_id", 1);
+                        }                       
                     }
                     else
                     {
-                        sorts.Add("_id", -1);
+                        if (!string.IsNullOrEmpty(sortBy))
+                        {
+                            sorts.Add(sortBy, -1);
+                        }
+                        else
+                        {
+                            sorts.Add("_id", -1);
+                        };
                     }
+                }
+                else if (key.Key == "sortBy")
+                {
+
                 }
                 else if(key.Key == "pageSize")
                 {
