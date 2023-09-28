@@ -15,9 +15,11 @@ using DotNETCoreMongoDBCRUD.ViewModel;
 using DotNETCoreMongoDBCRUD.Service;
 using DotNETCoreMongoDBCRUD.Entity.common;
 using DotNETCoreMongoDBCRUD.ViewModel.common;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DotNETCoreMongoDBCRUD.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : BaseController
@@ -47,8 +49,7 @@ namespace DotNETCoreMongoDBCRUD.Controllers
             catch(Exception ex)
             {
 
-            }
-            
+            }            
             return Json(results);
         }
         [HttpPost]
@@ -64,8 +65,16 @@ namespace DotNETCoreMongoDBCRUD.Controllers
         public JsonResult GetById(string id)
         {
             Product product = _productRepository.GetById(id);
-            ProductViewModel vm=mapper.MapModelToViewModel(product);
+            ProductViewModel vm = mapper.MapModelToViewModel(product);
             return Json(vm);
+        }
+        [HttpPut]
+        public JsonResult Update(ProductViewModel vm)
+        {
+            CommandResultModel result = new CommandResultModel();
+            Product product = mapper.MapViewModelToModel(vm);
+            result = service.SaveOrUpdate(product);
+            return Json(result);
         }
         [HttpDelete]
         public JsonResult Delete(string id)

@@ -44,9 +44,9 @@ namespace DotNETCoreMongoDBCRUD.Repository
 
         public void Update(T entity)
         {
-            throw new NotImplementedException();
+            MongoDB.Bson.ObjectId id = (MongoDB.Bson.ObjectId)entity.GetType().GetProperty("_id").GetValue(entity);
+            _collection.ReplaceOne(Builders<T>.Filter.Eq("_id",id), entity);
         }
-
         public List<T> Get()
         {
             return _collection.Find(_ => true).ToList();
@@ -74,6 +74,24 @@ namespace DotNETCoreMongoDBCRUD.Repository
             if (options.page != null && options.pageSize != null)
                 query = query.Skip((options.page.Value - 1) * options.pageSize.Value).Limit(options.pageSize.Value);
             return  query.ToList();
+        }
+
+        public T Get(string id)
+        {
+            var filter = Builders<T>.Filter.Eq("_id", MongoDB.Bson.ObjectId.Parse(id));
+            return _collection.Find(filter).FirstOrDefault();
+        }
+
+        public void UpdateAsync(T entity)
+        {
+            MongoDB.Bson.ObjectId id = (MongoDB.Bson.ObjectId)entity.GetType().GetProperty("_id").GetValue(entity);
+            _collection.ReplaceOneAsync(Builders<T>.Filter.Eq("_id", id), entity);
+        }
+
+        public  void DeleteAsync(string id)
+        {
+            var filter = Builders<T>.Filter.Eq("_id", MongoDB.Bson.ObjectId.Parse(id));
+            _collection.DeleteOneAsync(filter);
         }
     }
 }
